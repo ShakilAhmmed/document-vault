@@ -7,6 +7,9 @@ import { Category } from "./category/entities/category.entity";
 import { UserModule } from "./user/user.module";
 import { User } from "./user/entities/user.entity";
 import { AuthModule } from './auth/auth.module';
+import { DocumentsService } from './documents/documents.service';
+import { DocumentsModule } from './documents/documents.module';
+import { DocumentsModule } from './documents/documents.module';
 
 @Module({
   imports: [
@@ -22,9 +25,10 @@ import { AuthModule } from './auth/auth.module';
     }),
     CategoryModule,
     UserModule,
-    AuthModule],
+    AuthModule,
+    DocumentsModule],
   controllers: [AppController],
-  providers: [AppService]
+  providers: [AppService, DocumentsService]
 })
 export class AppModule {
 }
