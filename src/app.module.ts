@@ -4,6 +4,9 @@ import { AppService } from "./app.service";
 import { CategoryModule } from "./category/category.module";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { Category } from "./category/entities/category.entity";
+import { UserModule } from "./user/user.module";
+import { User } from "./user/entities/user.entity";
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -14,10 +17,12 @@ import { Category } from "./category/entities/category.entity";
       username: "root",
       password: "",
       database: "document_vault",
-      entities: [Category],
+      entities: [Category, User],
       synchronize: true
     }),
-    CategoryModule],
+    CategoryModule,
+    UserModule,
+    AuthModule],
   controllers: [AppController],
   providers: [AppService]
 })

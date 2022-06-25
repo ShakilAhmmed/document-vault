@@ -17,8 +17,8 @@ export class CategoryService {
   }
 
   async create(createCategoryDto: CreateCategoryDto): Promise<CategoryInterface> {
-    const user = this.categoryRepository.create(createCategoryDto);
-    return await this.categoryRepository.save(user);
+    const category = this.categoryRepository.create(createCategoryDto);
+    return await this.categoryRepository.save(category);
   }
 
   async findAll(): Promise<CategoryInterface[]> {
