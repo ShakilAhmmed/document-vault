@@ -1,34 +1,121 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { DocumentsService } from './documents.service';
-import { CreateDocumentDto } from './dto/create-document.dto';
-import { UpdateDocumentDto } from './dto/update-document.dto';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  HttpStatus,
+  UseInterceptors,
+  UploadedFile
+} from "@nestjs/common";
+import { DocumentsService } from "./documents.service";
+import { CreateDocumentDto } from "./dto/create-document.dto";
+import { UpdateDocumentDto } from "./dto/update-document.dto";
+import { FileInterceptor } from "@nestjs/platform-express";
+import { diskStorage } from "multer";
+import { fileName } from "./helpers/file.helpers";
 
-@Controller('documents')
+@Controller("/api/v1/documents")
 export class DocumentsController {
-  constructor(private readonly documentsService: DocumentsService) {}
+  constructor(private readonly documentsService: DocumentsService) {
+  }
 
   @Post()
-  create(@Body() createDocumentDto: CreateDocumentDto) {
-    return this.documentsService.create(createDocumentDto);
+  @UseInterceptors(FileInterceptor("file", {
+    storage: diskStorage({
+      destination: "./uploadedFiles/documents",
+      filename: fileName,
+    })
+  }))
+  async create(@Body() createDocumentDto: CreateDocumentDto, @UploadedFile() file: Express.Multer.File) {
+    try {
+      createDocumentDto.file = file.path;
+      const document = await this.documentsService.create(createDocumentDto);
+      return {
+        status_code: HttpStatus.CREATED,
+        message: "Document added successfully",
+        data: document
+      };
+    } catch (exception: any) {
+      return {
+        status_code: HttpStatus.INTERNAL_SERVER_ERROR,
+        message: exception?.message,
+        data: []
+      };
+    }
   }
 
   @Get()
-  findAll() {
-    return this.documentsService.findAll();
+  async findAll() {
+    try {
+      const documents = await this.documentsService.findAll();
+      return {
+        status_code: HttpStatus.OK,
+        message: "Documents fetched successfully",
+        data: documents
+      };
+    } catch (exception: any) {
+      return {
+        status_code: HttpStatus.INTERNAL_SERVER_ERROR,
+        message: exception?.message,
+        data: []
+      };
+    }
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.documentsService.findOne(+id);
+  @Get(":id")
+  async findOne(@Param("id") id: string) {
+    try {
+      const category = await this.documentsService.findOne(+id);
+      return {
+        status_code: HttpStatus.OK,
+        message: "Document fetched successfully",
+        data: category
+      };
+    } catch (exception: any) {
+      return {
+        status_code: HttpStatus.INTERNAL_SERVER_ERROR,
+        message: exception?.message,
+        data: []
+      };
+    }
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateDocumentDto: UpdateDocumentDto) {
-    return this.documentsService.update(+id, updateDocumentDto);
+  @Patch(":id")
+  async update(@Param("id") id: string, @Body() updateDocumentDto: UpdateDocumentDto) {
+    try {
+      const document = await this.documentsService.update(+id, updateDocumentDto);
+      return {
+        status_code: HttpStatus.CREATED,
+        message: "Document updated successfully",
+        data: document
+      };
+    } catch (exception: any) {
+      return {
+        status_code: HttpStatus.INTERNAL_SERVER_ERROR,
+        message: exception?.message,
+        data: []
+      };
+    }
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.documentsService.remove(+id);
+  @Delete(":id")
+  async remove(@Param("id") id: string) {
+    try {
+      await this.documentsService.remove(+id);
+      return {
+        status_code: HttpStatus.OK,
+        message: "Document deleted successfully",
+        data: []
+      };
+    } catch (exception: any) {
+      return {
+        status_code: HttpStatus.INTERNAL_SERVER_ERROR,
+        message: exception?.message,
+        data: []
+      };
+    }
   }
 }

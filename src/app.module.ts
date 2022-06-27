@@ -6,10 +6,9 @@ import { TypeOrmModule } from "@nestjs/typeorm";
 import { Category } from "./category/entities/category.entity";
 import { UserModule } from "./user/user.module";
 import { User } from "./user/entities/user.entity";
-import { AuthModule } from './auth/auth.module';
-import { DocumentsService } from './documents/documents.service';
-import { DocumentsModule } from './documents/documents.module';
-import { DocumentsModule } from './documents/documents.module';
+import { AuthModule } from "./auth/auth.module";
+import { DocumentsModule } from "./documents/documents.module";
+import { Document } from "./documents/entities/document.entity";
 
 @Module({
   imports: [
@@ -20,7 +19,7 @@ import { DocumentsModule } from './documents/documents.module';
       username: "root",
       password: "",
       database: "document_vault",
-      entities: [Category, User],
+      entities: [Category, User, Document],
       synchronize: true
     }),
     CategoryModule,
@@ -28,7 +27,7 @@ import { DocumentsModule } from './documents/documents.module';
     AuthModule,
     DocumentsModule],
   controllers: [AppController],
-  providers: [AppService, DocumentsService]
+  providers: [AppService]
 })
 export class AppModule {
 }
