@@ -6,6 +6,8 @@ export class CreateCategoryDto {
   @IsString({ message: "Title Should Be String" })
   title: string;
 
+  user_id: number;
+
   @IsNotEmpty({ message: "Status Should Not Be Empty" })
   status: number;
 }

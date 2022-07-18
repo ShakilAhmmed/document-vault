@@ -1,4 +1,4 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { BeforeInsert, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
 import { CreateDateColumn, UpdateDateColumn } from "typeorm";
 
@@ -8,6 +8,9 @@ export class Category {
 
   @PrimaryGeneratedColumn()
   id: number;
+
+  @Column({ default: null})
+  user_id: number;
 
   @Column()
   title: string;

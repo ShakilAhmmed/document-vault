@@ -1,16 +1,20 @@
-import { Controller, Get, Post, Body, Param, Delete, HttpStatus, Put } from "@nestjs/common";
+import { Controller, Get, Post, Body, Param, Delete, HttpStatus, Put, Req, UseGuards } from "@nestjs/common";
 import { CategoryService } from "./category.service";
 import { CreateCategoryDto } from "./dto/create-category.dto";
 import { UpdateCategoryDto } from "./dto/update-category.dto";
+import { LocalAuthGuard } from "../auth/local-auth.guard";
+import { JwtAuthGuard } from "../auth/jwt-auth.guard";
 
 @Controller("/api/v1/categories")
 export class CategoryController {
   constructor(private readonly categoryService: CategoryService) {
   }
 
+  // @UseGuards(JwtAuthGuard)
   @Post()
-  async create(@Body() createCategoryDto: CreateCategoryDto) {
+  async create(@Body() createCategoryDto: CreateCategoryDto, @Req() request) {
     try {
+      // createCategoryDto.user_id = request.user.userId;
       const category = await this.categoryService.create(createCategoryDto);
       return {
         status_code: HttpStatus.CREATED,
