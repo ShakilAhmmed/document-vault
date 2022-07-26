@@ -29,6 +29,7 @@ export class CategoryController {
         }
     }
 
+    @UseGuards(JwtAuthGuard)
     @Get()
     async findAll() {
         try {
@@ -47,6 +48,7 @@ export class CategoryController {
         }
     }
 
+    @UseGuards(JwtAuthGuard)
     @Get(":id")
     async findOne(@Param("id") id: string) {
         try {
@@ -65,6 +67,7 @@ export class CategoryController {
         }
     }
 
+    @UseGuards(JwtAuthGuard)
     @Put(":id")
     async update(@Param("id") id: string, @Body() updateCategoryDto: UpdateCategoryDto) {
         try {
@@ -83,6 +86,7 @@ export class CategoryController {
         }
     }
 
+    @UseGuards(JwtAuthGuard)
     @Delete(":id")
     async remove(@Param("id") id: string) {
         try {

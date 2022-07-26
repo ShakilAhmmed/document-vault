@@ -9,6 +9,7 @@ import {
 } from "typeorm";
 import * as bcrypt from "bcrypt";
 import {Category} from "../../category/entities/category.entity";
+import {Document} from "../../documents/entities/document.entity";
 
 @Entity("users")
 export class User {
@@ -41,5 +42,8 @@ export class User {
 
     @OneToMany(() => Category, (category) => category.user)
     categories: Category[];
+
+    @OneToMany(() => Document, (document) => document.user)
+    documents: Document[];
 
 }

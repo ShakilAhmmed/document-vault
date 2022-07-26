@@ -2,6 +2,7 @@ import {BeforeInsert, Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryG
 
 import {CreateDateColumn, UpdateDateColumn} from "typeorm";
 import {User} from "../../user/entities/user.entity";
+import {Document} from "../../documents/entities/document.entity";
 
 
 @Entity("categories")
@@ -28,5 +29,8 @@ export class Category {
     @ManyToOne(() => User, (user) => user.categories)
     @JoinColumn({name: "user_id"})
     user: User;
+
+    @OneToMany(() => Document, (document) => document.category)
+    documents: Document[];
 
 }

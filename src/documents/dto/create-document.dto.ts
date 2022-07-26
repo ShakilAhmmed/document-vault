@@ -8,6 +8,8 @@ export class CreateDocumentDto {
 
   file: string;
 
+  user_id: number;
+
   @IsNotEmpty({ message: "Category Should Not Be Empty" })
   category_id: number;
 
