@@ -1,5 +1,5 @@
 export class CategoryInterface {
-  id: number;
-  title: string;
-  status: number;
+    id: number;
+    title: string;
+    status: number;
 }

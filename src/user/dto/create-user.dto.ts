@@ -2,6 +2,11 @@ import { IsEmail, IsNotEmpty } from "class-validator";
 import { Unique } from "typeorm";
 
 export class CreateUserDto {
+
+  @IsNotEmpty({ message: "Name Should Not Be Empty" })
+  name: string;
+
+
   @IsNotEmpty({ message: "Email Should Not Be Empty" })
   @IsEmail()
   @Unique("users", ["email"])
