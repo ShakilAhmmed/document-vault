@@ -9,6 +9,7 @@ import { User } from "./user/entities/user.entity";
 import { AuthModule } from "./auth/auth.module";
 import { DocumentsModule } from "./documents/documents.module";
 import { Document } from "./documents/entities/document.entity";
+import { Shared } from "./documents/entities/shared.entity";
 
 @Module({
   imports: [
@@ -19,7 +20,7 @@ import { Document } from "./documents/entities/document.entity";
       username: "root",
       password: "",
       database: "document_vault",
-      entities: [Category, User, Document],
+      entities: [Category, User, Document, Shared],
       synchronize: true
     }),
     CategoryModule,

@@ -7,8 +7,9 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn
 } from "typeorm";
-import {User} from "../../user/entities/user.entity";
-import {Category} from "../../category/entities/category.entity";
+import { User } from "../../user/entities/user.entity";
+import { Category } from "../../category/entities/category.entity";
+import { Shared } from "./shared.entity";
 
 @Entity("documents")
 export class Document {
@@ -30,7 +31,7 @@ export class Document {
   @Column()
   status: number;
 
-  @Column({default: null})
+  @Column({ default: null })
   user_id: number;
 
   @CreateDateColumn({ type: "timestamp", default: () => "CURRENT_TIMESTAMP(6)" })
@@ -40,12 +41,14 @@ export class Document {
   updated_at: Date;
 
   @ManyToOne(() => User, (user) => user.documents)
-  @JoinColumn({name: "user_id"})
+  @JoinColumn({ name: "user_id" })
   user: User;
 
   @ManyToOne(() => Category, (category) => category.documents)
-  @JoinColumn({name: "category_id"})
+  @JoinColumn({ name: "category_id" })
   category: Category;
 
+  @OneToMany(() => Shared, (shared) => shared.document)
+  shared: Shared[];
 
 }
