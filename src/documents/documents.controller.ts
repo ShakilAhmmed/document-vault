@@ -139,7 +139,7 @@ export class DocumentsController {
   @UseGuards(JwtAuthGuard)
   @Post("/shared/:documentId")
   async shared(@Param("documentId") documentId: number, @Req() request) {
-    return await this.documentsService.shared(documentId, request.user.userId);
+    return await this.documentsService.shared(documentId, request.query.userId);
   }
 
   @UseGuards(JwtAuthGuard)

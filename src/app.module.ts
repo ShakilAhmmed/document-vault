@@ -18,7 +18,7 @@ import { Shared } from "./documents/entities/shared.entity";
       host: "localhost",
       port: 3306,
       username: "root",
-      password: "",
+      password: "root",
       database: "document_vault",
       entities: [Category, User, Document, Shared],
       synchronize: true
